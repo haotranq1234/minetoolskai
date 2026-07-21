@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Small Caps Unicode</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel" aria-labelledby="title">
+        <div class="heading">
+          <p class="eyebrow">Unicode small caps</p>
+          <h1 id="title">Chuyển chữ thường sang small caps</h1>
+          <p class="sample">ʙé, ᴠợ, ɴàɴɢ ᴛʜơ, ᴄᴜᴛᴇ, ꜱáᴛ ᴛʜủ</p>
+        </div>
+
+        <label for="inputText">Văn bản gốc</label>
+        <textarea id="inputText" rows="7" placeholder="Nhập chữ ở đây...">bé, vợ, nàng thơ, cute, sát thủ.</textarea>
+
+        <div class="resultHeader">
+          <label for="outputText">Kết quả</label>
+          <button id="copyButton" type="button">Copy</button>
+        </div>
+        <textarea id="outputText" rows="7" readonly aria-live="polite"></textarea>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
