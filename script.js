@@ -1027,6 +1027,7 @@ let dmHistoryIndex = 0;
 let dmClipboard = dmState.clipboard ? cloneDMItem(dmState.clipboard) : null;
 let dmDragAnchor = null;
 let dmDragPreview = [];
+let dmIsPointerDown = false;
 let dmIsRestoringHistory = false;
 let dmSaveTimer = null;
 
@@ -1670,12 +1671,16 @@ function renderDMGrid() {
       if (event.button !== 0) {
         return;
       }
+      dmIsPointerDown = true;
       dmDragAnchor = slot;
       dmDragPreview = [slot];
     });
 
-    slotButton.addEventListener("mouseenter", () => {
-      if (dmDragAnchor == null) {
+    slotButton.addEventListener("mouseenter", (event) => {
+      if (!dmIsPointerDown || event.buttons !== 1 || dmDragAnchor == null) {
+        return;
+      }
+      if (slot === dmDragAnchor) {
         return;
       }
       dmDragPreview = buildDMRange(dmDragAnchor, slot);
@@ -1954,6 +1959,15 @@ dmExportDownloadButton?.addEventListener("click", () => {
 });
 dmImportInput?.addEventListener("change", () => handleDMImportFile(dmImportInput.files?.[0]));
 dmSearchInput?.addEventListener("input", updateDMSearchField);
+
+document.addEventListener("mouseup", () => {
+  dmIsPointerDown = false;
+  dmDragPreview = [];
+});
+document.addEventListener("mouseleave", () => {
+  dmIsPointerDown = false;
+  dmDragPreview = [];
+});
 
 bindDMInspector();
 renderDMMaterialLibrary();
