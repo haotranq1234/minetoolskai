@@ -47,7 +47,7 @@
             <h1>minetoolskai đang được xây dựng thành trung tâm tool Minecraft.</h1>
             <p class="lead">
               Web cũ vẫn được giữ lại. Bên trong hiện có 2 tool chạy hoàn toàn trên client:
-              small caps Unicode, Minecraft Leather Armor Color Converter và YAML Translator.
+              small caps Unicode, Minecraft Leather Armor Color Converter, YAML Translator và DeluxeMenus GUI Designer.
             </p>
 
             <div class="hero-actions">
@@ -59,8 +59,8 @@
           <aside class="hero-panel">
             <div class="panel-card">
               <span class="panel-label">Status</span>
-              <h2>3 tools online</h2>
-              <p>Small caps Unicode, Leather Armor Color Converter và YAML Translator.</p>
+              <h2>4 tools online</h2>
+              <p>Small caps Unicode, Leather Armor Color Converter, YAML Translator và DeluxeMenus GUI Designer.</p>
               <a class="button button-primary panel-action" href="#tools" data-page="tools">Mở tool</a>
             </div>
 
@@ -71,7 +71,7 @@
               </article>
               <article>
                 <span>Tools</span>
-                <strong>3 client-side tools</strong>
+                <strong>4 client-side tools</strong>
               </article>
               <article>
                 <span>Theme</span>
@@ -126,6 +126,16 @@
             <h3>YAML Translator</h3>
             <p>Dịch player-facing text trong file YAML sang tiếng Việt, giữ nguyên cấu trúc.</p>
             <button class="tool-link" type="button" data-page="yaml-translator">Mở tool</button>
+          </article>
+
+          <article class="tool-tile">
+            <div class="tool-topline">
+              <span class="tool-icon">D</span>
+              <span class="tool-tag">GUI</span>
+            </div>
+            <h3>DeluxeMenus GUI Designer</h3>
+            <p>Thiết kế menu DeluxeMenus bằng kéo thả, không cần viết YAML thủ công.</p>
+            <button class="tool-link" type="button" data-page="deluxemenus-designer">Mở tool</button>
           </article>
         </section>
       </section>
@@ -317,6 +327,175 @@ attack-speed: 1.6</textarea>
             </div>
           </article>
         </section>
+      </section>
+
+      <section class="page shell" id="deluxemenus-designer" data-page-panel="deluxemenus-designer">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">Tool</p>
+            <h2>DeluxeMenus GUI Designer</h2>
+          </div>
+          <p class="page-note">
+            Kéo thả, sửa slot, fill border, multi select, auto save và export YAML ngay trên trình duyệt.
+          </p>
+        </div>
+
+        <section class="designer-toolbar">
+          <div class="designer-toolbar-group">
+            <label class="toolbar-field">
+              Menu title
+              <input id="dmMenuTitle" type="text" value="&amp;8&lExample Menu">
+            </label>
+            <div class="size-switcher" aria-label="Kích thước menu">
+              <button type="button" class="size-btn is-active" data-size="9">9</button>
+              <button type="button" class="size-btn" data-size="18">18</button>
+              <button type="button" class="size-btn" data-size="27">27</button>
+              <button type="button" class="size-btn" data-size="36">36</button>
+              <button type="button" class="size-btn" data-size="45">45</button>
+              <button type="button" class="size-btn" data-size="54">54</button>
+            </div>
+          </div>
+
+          <div class="designer-toolbar-group designer-toolbar-actions">
+            <label class="toolbar-field">
+              Border material
+              <select id="dmBorderMaterial">
+                <option>GRAY_STAINED_GLASS_PANE</option>
+                <option>BLACK_STAINED_GLASS_PANE</option>
+                <option>RED_STAINED_GLASS_PANE</option>
+                <option>BLUE_STAINED_GLASS_PANE</option>
+                <option>GREEN_STAINED_GLASS_PANE</option>
+                <option>WHITE_STAINED_GLASS_PANE</option>
+              </select>
+            </label>
+
+            <button id="dmFillBorder" class="button button-secondary" type="button">Tạo viền</button>
+            <button id="dmFillSelection" class="button button-secondary" type="button">Fill rectangle</button>
+            <button id="dmPasteClipboard" class="button button-secondary" type="button">Paste clipboard</button>
+            <button id="dmUndo" class="button button-secondary" type="button">Undo</button>
+            <button id="dmRedo" class="button button-secondary" type="button">Redo</button>
+            <button id="dmExportCopy" class="button button-primary" type="button">Copy YAML</button>
+            <button id="dmExportDownload" class="button button-primary" type="button">Download</button>
+            <label class="upload-button dm-import-button">
+              Import YAML
+              <input id="dmImport" type="file" accept=".yml,.yaml,text/yaml,text/plain">
+            </label>
+            <p id="dmStatus" class="status designer-status">Sẵn sàng.</p>
+          </div>
+        </section>
+
+        <section class="designer-layout">
+          <article class="designer-stage">
+            <div class="designer-stage-head">
+              <div>
+                <span class="panel-label">Inventory</span>
+                <h3 id="dmStageTitle">Menu preview</h3>
+              </div>
+              <div class="designer-search-wrap">
+                <input id="dmSearch" type="search" placeholder="Search item...">
+                <div id="dmSearchResults" class="search-results"></div>
+              </div>
+            </div>
+
+            <div class="inventory-shell">
+              <div class="chest-top"></div>
+              <div class="inventory-grid" id="dmGrid" aria-label="DeluxeMenus slots"></div>
+              <div class="inventory-hint">
+                Ctrl/Cmd để chọn nhiều slot. Chuột phải để copy/paste item.
+              </div>
+            </div>
+          </article>
+
+          <aside class="designer-inspector">
+            <div class="inspector-header">
+              <div>
+                <span class="panel-label">Inspector</span>
+                <h3 id="dmInspectorTitle">Slot 1</h3>
+              </div>
+              <div id="dmSelectionCount" class="selection-pill">1 selected</div>
+            </div>
+
+            <div class="inspector-fields">
+              <label>Material<input id="dmMaterial" type="text" list="dmMaterialSuggestions" placeholder="DIAMOND_SWORD"></label>
+              <label>Name<input id="dmName" type="text" placeholder="&amp;aLegendary Sword"></label>
+              <label>Lore<textarea id="dmLore" rows="5" placeholder="&amp;7Increase Damage"></textarea></label>
+              <label>CustomModelData<input id="dmCustomModelData" type="number" min="0" placeholder="0"></label>
+              <label>Amount<input id="dmAmount" type="number" min="1" max="64" placeholder="1"></label>
+              <label class="checkbox-row"><input id="dmGlow" type="checkbox"> Glow</label>
+              <label>Skull URL<input id="dmSkullUrl" type="text" placeholder="https://textures.minecraft.net/..."></label>
+              <label>ItemsAdder ID<input id="dmItemsAdderId" type="text" list="dmAutoCompleteItemsAdder" placeholder="itemsadder:item_id"></label>
+              <label>MMOItems ID<input id="dmMmoItemsId" type="text" list="dmAutoCompleteMmoItems" placeholder="MMO_WEAPON"></label>
+              <label>Permission<input id="dmPermission" type="text" list="dmAutoCompletePermission" placeholder="menu.open"></label>
+              <label>Command<input id="dmCommand" type="text" list="dmAutoCompleteCommand" placeholder="say hello"></label>
+              <label>Sound<input id="dmSound" type="text" placeholder="UI_BUTTON_CLICK"></label>
+              <label>Click Type
+                <select id="dmClickType">
+                  <option>LEFT</option>
+                  <option>RIGHT</option>
+                  <option>SHIFT_LEFT</option>
+                  <option>SHIFT_RIGHT</option>
+                  <option>MIDDLE</option>
+                </select>
+              </label>
+              <label class="checkbox-row"><input id="dmCloseMenu" type="checkbox"> Close Menu</label>
+              <label>Open Menu<input id="dmOpenMenu" type="text" placeholder="other_menu"></label>
+              <label>Placeholder<input id="dmPlaceholder" type="text" list="dmAutoCompletePlaceholder" placeholder="%player_name%"></label>
+              <label>Requirements<textarea id="dmRequirements" rows="4" placeholder="- if: '%player_has_permission%'"></textarea></label>
+            </div>
+
+            <div class="inspector-preview">
+              <span>Preview block</span>
+              <div id="dmItemPreview" class="item-preview">
+                <strong>STONE</strong>
+                <em>Menu item preview</em>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="designer-export">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">Export</p>
+              <h2>DeluxeMenus YAML</h2>
+            </div>
+            <p class="page-note">YAML được sinh hoàn toàn trên client và tự lưu vào LocalStorage.</p>
+          </div>
+          <div class="code-shell">
+            <div class="code-shell-head">
+              <span>Live YAML</span>
+            </div>
+            <pre class="code-block"><code id="dmYamlPreview" class="language-yaml"></code></pre>
+          </div>
+        </section>
+
+        <datalist id="dmMaterialSuggestions"></datalist>
+        <datalist id="dmAutoCompleteCommand">
+          <option value="say hello"></option>
+          <option value="msg %player%"></option>
+          <option value="open_menu"></option>
+          <option value="close_menu"></option>
+        </datalist>
+        <datalist id="dmAutoCompletePlaceholder">
+          <option value="%player_name%"></option>
+          <option value="%vault_eco_balance%"></option>
+          <option value="%server_tps%"></option>
+          <option value="%world_name%"></option>
+        </datalist>
+        <datalist id="dmAutoCompletePermission">
+          <option value="menu.open"></option>
+          <option value="deluxemenus.use"></option>
+          <option value="gui.open"></option>
+        </datalist>
+        <datalist id="dmAutoCompleteItemsAdder">
+          <option value="minecraft:custom_item"></option>
+          <option value="my_pack:menu_item"></option>
+        </datalist>
+        <datalist id="dmAutoCompleteMmoItems">
+          <option value="SWORD"></option>
+          <option value="BOW"></option>
+          <option value="HELMET"></option>
+        </datalist>
       </section>
 
       <section class="page shell" id="contact" data-page-panel="contact">
