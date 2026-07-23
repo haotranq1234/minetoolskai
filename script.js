@@ -1147,6 +1147,117 @@ function getMaterialMeta(material) {
   };
 }
 
+function getDMItemKind(item) {
+  const material = String(item?.material || "").toUpperCase();
+  if (item?.skullUrl || material === "PLAYER_HEAD" || material.endsWith("_HEAD") || material.endsWith("_SKULL")) {
+    return "head";
+  }
+  if (item?.itemsAdderId) {
+    return "itemsadder";
+  }
+  if (item?.mmoItemsId) {
+    return "mmoitems";
+  }
+  if (/STAINED_GLASS|GLASS_PANE|GLASS/i.test(material)) {
+    return "glass";
+  }
+  if (/(SWORD|AXE|PICKAXE|HOE|SHOVEL|HELMET|CHESTPLATE|LEGGINGS|BOOTS|BOW|CROSSBOW|SHIELD|TRIDENT|ROD)/i.test(material)) {
+    return "gear";
+  }
+  if (/(ORE|BLOCK|STONE|COBBLE|BRICK|DEEPSLATE|NETHERRACK|CONCRETE|TERRACOTTA|PLANKS|LOG|WOOD|DIRT|SAND|GRAVEL|CLAY|ICE|SNOW|PRISMARINE|SEA_LANTERN|OBSIDIAN|QUARTZ|DIAMOND|EMERALD|GOLD|IRON|COPPER|REDSTONE|LAPIS|AMETHYST|NETHERITE|MANGROVE|BAMBOO|CHERRY|MUSHROOM|MUD|SCULK|TUFF)/i.test(material)) {
+    return "block";
+  }
+  return "item";
+}
+
+function getDMColorAccent(material) {
+  const normalized = String(material || "").toUpperCase();
+  const colorEntries = [
+    ["LIGHT_BLUE", "#7ccfff"],
+    ["LIGHT_GRAY", "#c9ced6"],
+    ["BLACK", "#4d5157"],
+    ["GRAY", "#9fa4ab"],
+    ["WHITE", "#e8edf3"],
+    ["RED", "#ff6868"],
+    ["BLUE", "#6a86ff"],
+    ["GREEN", "#67e37b"],
+    ["LIME", "#9cff64"],
+    ["YELLOW", "#ffe05a"],
+    ["ORANGE", "#ffb05e"],
+    ["PINK", "#ff88cf"],
+    ["PURPLE", "#c48cff"],
+    ["MAGENTA", "#ff75e0"],
+    ["CYAN", "#65ebff"],
+    ["BROWN", "#a67147"]
+  ];
+
+  for (const [key, value] of colorEntries) {
+    if (normalized.startsWith(key) || normalized.includes(`_${key}_`) || normalized.endsWith(`_${key}`)) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
+function getDMMaterialTheme(item) {
+  const material = String(item?.material || "").toUpperCase();
+  const kind = getDMItemKind(item);
+
+  if (kind === "head") {
+    return { kind, accent: "#f4c88f", highlight: "#ffe8bd", shadow: "#6d4425" };
+  }
+
+  if (kind === "itemsadder") {
+    return { kind, accent: "#7defff", highlight: "#f7ffff", shadow: "#0f566d" };
+  }
+
+  if (kind === "mmoitems") {
+    return { kind, accent: "#dafc6a", highlight: "#ffffff", shadow: "#425700" };
+  }
+
+  if (kind === "glass") {
+    const accent = getDMColorAccent(material) || "#dbe5f2";
+    return { kind, accent, highlight: "#ffffff", shadow: "rgba(20, 24, 30, 0.9)" };
+  }
+
+  if (kind === "gear") {
+    if (/(DIAMOND|EMERALD|PRISMARINE|AMETHYST)/i.test(material)) {
+      return { kind, accent: "#71f0dc", highlight: "#ffffff", shadow: "#12505a" };
+    }
+    if (/(GOLD|NETHERITE|IRON|COPPER|CHAIN)/i.test(material)) {
+      return { kind, accent: "#c9d1d8", highlight: "#ffffff", shadow: "#515b65" };
+    }
+    return { kind, accent: "#d7dce2", highlight: "#ffffff", shadow: "#58616b" };
+  }
+
+  if (kind === "block") {
+    if (/(DIAMOND|EMERALD|PRISMARINE|SEA_LANTERN|SCULK)/i.test(material)) {
+      return { kind, accent: "#6af0dd", highlight: "#efffff", shadow: "#114f5e" };
+    }
+    if (/(NETHER|REDSTONE|MAGMA|BLAZE|SOUL|OBSIDIAN|BLACKSTONE)/i.test(material)) {
+      return { kind, accent: "#ff7b72", highlight: "#ffe2db", shadow: "#551214" };
+    }
+    if (/(WOOD|LOG|PLANK|BAMBOO|CHERRY|MANGROVE|OAK|SPRUCE|BIRCH|JUNGLE|ACACIA|DARK_OAK)/i.test(material)) {
+      return { kind, accent: "#c78a57", highlight: "#ffe1bf", shadow: "#6c4124" };
+    }
+    if (/(STONE|COBBLE|DEEPSLATE|TUFF|ANDESITE|GRANITE|DIORITE|BRICK|QUARTZ|TERRACOTTA|CONCRETE|CLAY|SAND|DIRT|GRAVEL)/i.test(material)) {
+      return { kind, accent: "#9fa4aa", highlight: "#f2f5f7", shadow: "#464b50" };
+    }
+    if (/(GOLD|IRON|COPPER)/i.test(material)) {
+      return { kind, accent: "#e0c081", highlight: "#fff1cc", shadow: "#766033" };
+    }
+    return { kind, accent: "#aab1b9", highlight: "#f4f7fa", shadow: "#4b5259" };
+  }
+
+  return { kind, accent: "#b9c1ca", highlight: "#ffffff", shadow: "#50565f" };
+}
+
+function getDMVisualStyle(item) {
+  const theme = getDMMaterialTheme(item);
+  return `--dm-accent:${theme.accent};--dm-highlight:${theme.highlight};--dm-shadow:${theme.shadow};`;
+}
+
 function renderLegacyHtml(text) {
   if (!text) {
     return "";
@@ -1234,6 +1345,20 @@ function getDMItemIcon(item) {
   }
 
   if (item.mmoItemsId) {
+    return "MM";
+  }
+
+  const kind = getDMItemKind(item);
+  if (kind === "glass") {
+    return "▣";
+  }
+  if (kind === "head") {
+    return "◉";
+  }
+  if (kind === "itemsadder") {
+    return "IA";
+  }
+  if (kind === "mmoitems") {
     return "MM";
   }
 
@@ -1413,12 +1538,17 @@ function renderDMItemPreview(item) {
 
   const meta = getMaterialMeta(item.material);
   const icon = getDMItemIcon(item);
+  const themeStyle = getDMVisualStyle(item);
+  const kind = getDMItemKind(item);
   const titleHtml = renderLegacyHtml(item.name || meta.label || item.material || "Empty");
   const lorePreview = (item.lore || "").split("\n").filter(Boolean).slice(0, 3).map((line) => `<div>${renderLegacyHtml(line)}</div>`).join("");
   dmItemPreview.classList.toggle("item-preview--glow", Boolean(item.glow));
   dmItemPreview.classList.toggle("item-preview--head", Boolean(item.skullUrl));
   dmItemPreview.innerHTML = `
-    <strong>${escapeHtml(icon)} ${titleHtml || "Empty"}</strong>
+    <div class="item-preview-figure item-preview-figure--${kind}" style="${themeStyle}">
+      <span class="item-preview-figure-icon">${escapeHtml(icon)}</span>
+    </div>
+    <strong>${titleHtml || "Empty"}</strong>
     <em>${escapeHtml(item.material || meta.label || "AIR")}${item.customModelData ? ` · CMD ${escapeHtml(String(item.customModelData))}` : ""}${item.amount ? ` · x${escapeHtml(String(item.amount))}` : ""}</em>
     <div class="item-preview-lore">${lorePreview || "<div>No lore</div>"}</div>
   `;
@@ -1495,6 +1625,8 @@ function renderDMGrid() {
   for (let slot = 0; slot < dmState.size; slot += 1) {
     const item = dmState.slots[slot] || createEmptyDMItem(slot);
     const meta = getMaterialMeta(item.material);
+    const kind = getDMItemKind(item);
+    const visualStyle = getDMVisualStyle(item);
     const selected = getDMActiveSlots().includes(slot);
     const isClipboard = Boolean(dmClipboard && dmClipboard.slot === slot);
     const isBorder = isDMBorderSlot(slot);
@@ -1505,9 +1637,12 @@ function renderDMGrid() {
     slotButton.dataset.slot = String(slot);
     slotButton.innerHTML = `
       <div class="slot-inner">
-        <div class="slot-icon">${escapeHtml(getDMItemIcon(item))}</div>
+        <div class="slot-icon slot-icon--${kind}" data-kind="${kind}" style="${visualStyle}">
+          <span class="slot-icon-glyph">${escapeHtml(getDMItemIcon(item))}</span>
+        </div>
         <div class="slot-name">${renderLegacyHtml(getDMItemLabel(item))}</div>
       </div>
+      ${item.amount > 1 ? `<span class="slot-amount">${escapeHtml(String(item.amount))}</span>` : ""}
       <span class="slot-index">${slot + 1}</span>
     `;
 
