@@ -3,29 +3,331 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Small Caps Unicode</title>
+    <title>minetoolskai | Minecraft Tool Hub</title>
+    <meta
+      name="description"
+      content="minetoolskai là trung tâm công cụ Minecraft nhiều danh mục với giao diện tương lai, tối ưu cho tool hub hiện đại."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <main class="app">
-      <section class="panel" aria-labelledby="title">
-        <div class="heading">
-          <p class="eyebrow">Unicode small caps</p>
-          <h1 id="title">Chuyển chữ thường sang small caps</h1>
-          <p class="sample">ʙé, ᴠợ, ɴàɴɢ ᴛʜơ, ᴄᴜᴛᴇ, ꜱáᴛ ᴛʜủ</p>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="glow glow-a" aria-hidden="true"></div>
+    <div class="glow glow-b" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="minetoolskai" data-page="home">
+        <span class="brand-mark">M</span>
+        <span class="brand-copy">
+          <strong>minetoolskai</strong>
+          <small>Minecraft tool hub</small>
+        </span>
+      </a>
+
+      <nav class="topnav" aria-label="Điều hướng chính">
+        <button class="nav-link is-active" type="button" data-page="home">Tổng quan</button>
+        <button class="nav-link" type="button" data-page="tools">Tools</button>
+        <button class="nav-link" type="button" data-page="library">Thư viện</button>
+        <button class="nav-link" type="button" data-page="upload">Upload</button>
+      </nav>
+
+      <a class="topbar-cta" href="#tools" data-page="tools">Khám phá</a>
+    </header>
+
+    <main>
+      <section class="page is-active" id="home" data-page-panel="home">
+        <section class="hero shell">
+          <div class="hero-copy">
+            <p class="eyebrow">Minecraft utilities / futuristic UI</p>
+            <h1>Trung tâm công cụ Minecraft hiện đại cho <span>minetoolskai</span>.</h1>
+            <p class="lead">
+              Một giao diện mới, tối, sắc neon và khác biệt so với mẫu tham chiếu.
+              Tập trung vào nhiều danh mục, thao tác nhanh, và trải nghiệm điều hướng như một dashboard cao cấp.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-primary" href="#tools" data-page="tools">Mở danh mục tool</a>
+              <a class="button button-secondary" href="#upload" data-page="upload">Xem khu upload</a>
+            </div>
+
+            <dl class="stats">
+              <div>
+                <dt>09</dt>
+                <dd>công cụ nổi bật</dd>
+              </div>
+              <div>
+                <dt>06</dt>
+                <dd>nhóm chức năng</dd>
+              </div>
+              <div>
+                <dt>100%</dt>
+                <dd>giao diện tĩnh, dễ deploy</dd>
+              </div>
+            </dl>
+          </div>
+
+          <aside class="hero-panel">
+            <div class="panel-card panel-scan">
+              <span class="panel-label">Live status</span>
+              <h2>Server Toolkit Online</h2>
+              <p>
+                Theo dõi nhanh: YAML, skin, MOTD, item config, tối ưu server và các tiện ích cho
+                admin / creator / builder.
+              </p>
+            </div>
+
+            <div class="panel-grid">
+              <article>
+                <span>Mode</span>
+                <strong>Neon control</strong>
+              </article>
+              <article>
+                <span>Theme</span>
+                <strong>Dark future</strong>
+              </article>
+              <article>
+                <span>Target</span>
+                <strong>Minecraft tools</strong>
+              </article>
+              <article>
+                <span>Stack</span>
+                <strong>HTML / CSS / JS</strong>
+              </article>
+            </div>
+          </aside>
+        </section>
+
+        <section class="shell section-head">
+          <div>
+            <p class="eyebrow">Danh mục</p>
+            <h2>Nhóm công cụ theo luồng sử dụng</h2>
+          </div>
+          <div class="category-filters" role="tablist" aria-label="Bộ lọc danh mục">
+            <button class="chip is-active" type="button" data-filter="all">Tất cả</button>
+            <button class="chip" type="button" data-filter="server">Server</button>
+            <button class="chip" type="button" data-filter="content">Content</button>
+            <button class="chip" type="button" data-filter="config">Config</button>
+            <button class="chip" type="button" data-filter="skin">Skin</button>
+            <button class="chip" type="button" data-filter="visual">Visual</button>
+          </div>
+        </section>
+
+        <section class="shell tool-grid" id="tool-grid">
+          <article class="tool-card" data-category="visual" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">◈</span>
+              <span class="tool-tag">Visual</span>
+            </div>
+            <h3>Pixel Tag Builder</h3>
+            <p>Tạo rank tag, prefix chat và badge PNG theo phong cách neon dành cho server hoặc cộng đồng.</p>
+            <button type="button" class="tool-link" data-tool="Pixel Tag Builder">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="skin" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">✦</span>
+              <span class="tool-tag">Skin</span>
+            </div>
+            <h3>Skin Resolver</h3>
+            <p>Tra cứu skin, UUID và metadata nhanh gọn để hỗ trợ profile, head, và hiển thị avatar.</p>
+            <button type="button" class="tool-link" data-tool="Skin Resolver">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="config" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">⌘</span>
+              <span class="tool-tag">Config</span>
+            </div>
+            <h3>YAML Sentinel</h3>
+            <p>Quét lỗi thụt lề, tab, khoảng trắng và cấu trúc config để giảm lỗi khi deploy file Minecraft.</p>
+            <button type="button" class="tool-link" data-tool="YAML Sentinel">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="visual" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">▣</span>
+              <span class="tool-tag">Visual</span>
+            </div>
+            <h3>MOTD Reactor</h3>
+            <p>Thiết kế MOTD hai dòng với preview sáng rõ, phối màu sâu và độ tương phản tốt cho server list.</p>
+            <button type="button" class="tool-link" data-tool="MOTD Reactor">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="content" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">⟡</span>
+              <span class="tool-tag">Content</span>
+            </div>
+            <h3>Item Lore Forge</h3>
+            <p>Soạn lore, tên item, mô tả và giá trị hiển thị cho shop hoặc hệ thống RPG nhanh hơn.</p>
+            <button type="button" class="tool-link" data-tool="Item Lore Forge">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="content" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">✧</span>
+              <span class="tool-tag">Content</span>
+            </div>
+            <h3>MMO Drops Designer</h3>
+            <p>Thiết kế loot table, rarity và phần thưởng theo concept MMO / RPG rõ ràng, dễ đọc.</p>
+            <button type="button" class="tool-link" data-tool="MMO Drops Designer">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="server" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">⚡</span>
+              <span class="tool-tag">Server</span>
+            </div>
+            <h3>Performance Tuner</h3>
+            <p>Hỗ trợ tối ưu các file cấu hình server để giảm tải CPU, cân bằng TPS và latency ổn định hơn.</p>
+            <button type="button" class="tool-link" data-tool="Performance Tuner">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="server" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">☍</span>
+              <span class="tool-tag">Server</span>
+            </div>
+            <h3>Plugin Mapper</h3>
+            <p>Nhóm nhanh các plugin theo tính năng, mức độ ưu tiên và luồng cài đặt cho staff.</p>
+            <button type="button" class="tool-link" data-tool="Plugin Mapper">Mở chi tiết</button>
+          </article>
+
+          <article class="tool-card" data-category="config" tabindex="0">
+            <div class="tool-topline">
+              <span class="tool-icon">▦</span>
+              <span class="tool-tag">Config</span>
+            </div>
+            <h3>Command Pack</h3>
+            <p>Tập hợp câu lệnh hữu ích cho admin, builder và developer theo từng bối cảnh sử dụng.</p>
+            <button type="button" class="tool-link" data-tool="Command Pack">Mở chi tiết</button>
+          </article>
+        </section>
+      </section>
+
+      <section class="page shell" id="tools" data-page-panel="tools">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">Tools page</p>
+            <h2>Trang công cụ chính</h2>
+          </div>
+          <p class="page-note">
+            Bộ lọc phía trên sẽ gom đúng tool theo danh mục. Mỗi thẻ có thể bấm để xem mô tả nhanh.
+          </p>
+        </div>
+        <div class="page-split">
+          <article class="summary-card">
+            <h3>Luồng làm việc</h3>
+            <ol>
+              <li>Chọn danh mục phù hợp.</li>
+              <li>Tìm tool theo mục tiêu.</li>
+              <li>Mở chi tiết để xem mô tả.</li>
+            </ol>
+          </article>
+          <article class="summary-card">
+            <h3>Điểm mạnh</h3>
+            <ul>
+              <li>Giao diện neon tối, khác mẫu gốc.</li>
+              <li>Tối ưu cho mobile và desktop.</li>
+              <li>Dễ mở rộng thêm trang mới sau này.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="page shell" id="library" data-page-panel="library">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">Library page</p>
+            <h2>Thư viện tài nguyên</h2>
+          </div>
+          <p class="page-note">
+            Không chỉ là công cụ. Đây là nơi có thể mở rộng thêm preset, template, pack icon, và bộ mẫu cấu hình.
+          </p>
+        </div>
+        <div class="library-grid">
+          <article class="library-card">
+            <span>01</span>
+            <h3>Preset neon</h3>
+            <p>Màu sắc đặc trưng: đen sâu, lime điện và lớp glow mềm để nhìn nổi bật hơn.</p>
+          </article>
+          <article class="library-card">
+            <span>02</span>
+            <h3>Template tool card</h3>
+            <p>Dễ nhân bản cho các công cụ mới nếu sau này bạn muốn thêm danh mục khác.</p>
+          </article>
+          <article class="library-card">
+            <span>03</span>
+            <h3>Upload assets</h3>
+            <p>Chỗ dành cho ảnh preview, banner, icon hoặc file demo của từng tiện ích.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="page shell" id="upload" data-page-panel="upload">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">Upload page</p>
+            <h2>Thêm công cụ mới</h2>
+          </div>
+          <p class="page-note">
+            Đây là khu mô phỏng form upload / submit, phù hợp để bạn nối backend sau này nếu cần.
+          </p>
         </div>
 
-        <label for="inputText">Văn bản gốc</label>
-        <textarea id="inputText" rows="7" placeholder="Nhập chữ ở đây...">bé, vợ, nàng thơ, cute, sát thủ.</textarea>
+        <div class="upload-grid">
+          <form class="upload-card">
+            <label>
+              Tên tool
+              <input type="text" value="New Minecraft Utility" aria-label="Tên tool">
+            </label>
+            <label>
+              Danh mục
+              <select aria-label="Danh mục">
+                <option>Server</option>
+                <option>Content</option>
+                <option>Config</option>
+                <option>Skin</option>
+                <option>Visual</option>
+              </select>
+            </label>
+            <label>
+              Mô tả ngắn
+              <textarea rows="4" aria-label="Mô tả ngắn">Thêm một tiện ích mới cho minetoolskai với mô tả rõ ràng và dễ dùng.</textarea>
+            </label>
+            <button class="button button-primary" type="button">Chuẩn bị upload</button>
+          </form>
 
-        <div class="resultHeader">
-          <label for="outputText">Kết quả</label>
-          <button id="copyButton" type="button">Copy</button>
+          <aside class="upload-card upload-dropzone">
+            <strong>Kéo thả ảnh preview</strong>
+            <p>Chỗ này có thể gắn dropzone thật nếu bạn muốn nối backend hoặc lưu file sau.</p>
+            <div class="drop-grid" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+          </aside>
         </div>
-        <textarea id="outputText" rows="7" readonly aria-live="polite"></textarea>
-        <p id="status" class="status" role="status" aria-live="polite"></p>
       </section>
     </main>
+
+    <dialog class="tool-modal" id="tool-modal" aria-labelledby="modal-title">
+      <form method="dialog" class="modal-card">
+        <button class="modal-close" type="submit" aria-label="Đóng">✕</button>
+        <p class="eyebrow" id="modal-category">Tool</p>
+        <h3 id="modal-title">Tool name</h3>
+        <p id="modal-body"></p>
+        <div class="modal-footer">
+          <button class="button button-secondary" value="cancel" type="submit">Đóng</button>
+          <button class="button button-primary" type="button" id="copy-slug">Copy slug</button>
+        </div>
+      </form>
+    </dialog>
 
     <script src="script.js"></script>
   </body>
