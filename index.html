@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>minetoolskai | Minecraft Tool Hub</title>
+    <title>minetoolskai | Small Caps Unicode</title>
     <meta
       name="description"
-      content="minetoolskai là trang giới thiệu và liên hệ cho hệ sinh thái công cụ Minecraft, phong cách tương lai."
+      content="Chuyển chữ thường sang small caps Unicode, giữ dấu tiếng Việt, copy nhanh trên điện thoại."
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,104 +20,33 @@
     <div class="glow glow-a" aria-hidden="true"></div>
     <div class="glow glow-b" aria-hidden="true"></div>
 
-    <header class="topbar">
-      <a class="brand" href="#home" aria-label="minetoolskai" data-page="home">
-        <span class="brand-mark">M</span>
-        <span class="brand-copy">
-          <strong>minetoolskai</strong>
-          <small>Minecraft tool hub</small>
-        </span>
-      </a>
+    <main class="app shell">
+      <section class="hero-card">
+        <p class="eyebrow">minetoolskai / unicode tool</p>
+        <h1>Chuyển chữ thường sang small caps Unicode</h1>
+        <p class="lead">
+          Nhập văn bản tiếng Việt, công cụ sẽ đổi ngay sang kiểu như:
+          <strong>ʙé, ᴠợ, ɴàɴɢ ᴛʜơ, ᴄᴜᴛᴇ, ꜱáᴛ ᴛʜủ</strong>.
+        </p>
 
-      <nav class="topnav" aria-label="Điều hướng chính">
-        <button class="nav-link is-active" type="button" data-page="home">Tổng quan</button>
-        <button class="nav-link" type="button" data-page="contact">Liên hệ</button>
-      </nav>
-
-      <a class="topbar-cta" href="#contact" data-page="contact">Liên hệ</a>
-    </header>
-
-    <main>
-      <section class="page is-active" id="home" data-page-panel="home">
-        <section class="hero shell">
-          <div class="hero-copy">
-            <p class="eyebrow">Minecraft utilities / futuristic UI</p>
-            <h1>minetoolskai đang được xây dựng thành trung tâm tool Minecraft.</h1>
-            <p class="lead">
-              Trang này đã được dọn gọn, bỏ toàn bộ danh mục tool khi chưa có sản phẩm thật.
-              Mục tiêu là giữ một nền tảng rõ ràng, hiện đại và sẵn sàng cho tool đầu tiên sau này.
-            </p>
-
-            <div class="hero-actions">
-              <a class="button button-primary" href="#contact" data-page="contact">Xem liên hệ</a>
-              <a class="button button-secondary" href="#home" data-page="home">Quay lại đầu trang</a>
-            </div>
-          </div>
-
-          <aside class="hero-panel">
-            <div class="panel-card">
-              <span class="panel-label">Status</span>
-              <h2>Đang chuẩn bị tool đầu tiên</h2>
-              <p>
-                Khi bạn sẵn sàng, mình sẽ làm tiếp tool đầu tiên theo đúng phong cách của minetoolskai.
-              </p>
-            </div>
-
-            <div class="panel-grid">
-              <article>
-                <span>Mode</span>
-                <strong>Coming soon</strong>
-              </article>
-              <article>
-                <span>Focus</span>
-                <strong>Clean landing</strong>
-              </article>
-              <article>
-                <span>Theme</span>
-                <strong>Dark future</strong>
-              </article>
-              <article>
-                <span>Next step</span>
-                <strong>First tool</strong>
-              </article>
-            </div>
-          </aside>
-        </section>
+        <div class="sample">
+          <span>Ví dụ</span>
+          <p>bé, vợ, nàng thơ, cute, sát thủ.</p>
+        </div>
       </section>
 
-      <section class="page shell" id="contact" data-page-panel="contact">
-        <div class="page-header">
-          <div>
-            <p class="eyebrow">Liên hệ</p>
-            <h2>Thông tin liên hệ và hướng dẫn tiếp theo</h2>
-          </div>
-          <p class="page-note">
-            Khi xong phần nền, mình sẽ bắt đầu làm tool đầu tiên ngay trên khung này.
-          </p>
+      <section class="tool-card">
+        <div class="field-head">
+          <label for="inputText">Văn bản gốc</label>
+          <button id="copyButton" class="copy-button" type="button">Copy</button>
         </div>
 
-        <div class="contact-grid">
-          <article class="contact-card">
-            <h3>Liên hệ nhanh</h3>
-            <p>
-              Nếu bạn muốn thêm yêu cầu riêng cho tool đầu tiên, đây là chỗ để gắn email, Discord,
-              hoặc form liên hệ sau này.
-            </p>
-            <ul>
-              <li>Email: your-email@example.com</li>
-              <li>Discord: @minetoolskai</li>
-              <li>GitHub: haotranq1234/minetoolskai</li>
-            </ul>
-          </article>
+        <textarea id="inputText" rows="6" placeholder="Nhập văn bản ở đây...">bé, vợ, nàng thơ, cute, sát thủ.</textarea>
 
-          <article class="contact-card contact-highlight">
-            <h3>Trạng thái hiện tại</h3>
-            <p>
-              Không còn hiển thị danh mục tool hay mục upload. Trang đã được thu gọn để chờ nội dung thật.
-            </p>
-            <p class="contact-badge">Ready for first tool</p>
-          </article>
-        </div>
+        <label for="outputText" class="output-label">Kết quả small caps</label>
+        <textarea id="outputText" rows="6" readonly aria-live="polite"></textarea>
+
+        <p id="status" class="status" role="status" aria-live="polite"></p>
       </section>
     </main>
 
