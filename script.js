@@ -27,6 +27,8 @@ const smallCapsMap = {
   z: "ᴢ"
 };
 
+const pages = Array.from(document.querySelectorAll("[data-page-panel]"));
+const navLinks = Array.from(document.querySelectorAll("[data-page]"));
 const inputText = document.querySelector("#inputText");
 const outputText = document.querySelector("#outputText");
 const copyButton = document.querySelector("#copyButton");
@@ -37,30 +39,68 @@ function convertToSmallCaps(text) {
 }
 
 function updateOutput() {
+  if (!inputText || !outputText) {
+    return;
+  }
+
   outputText.value = convertToSmallCaps(inputText.value);
-  statusText.textContent = "";
+  if (statusText) {
+    statusText.textContent = "";
+  }
 }
 
 async function copyOutput() {
-  const value = outputText.value;
+  const value = outputText?.value || "";
 
   if (!value) {
-    statusText.textContent = "Chưa có nội dung để copy.";
+    if (statusText) {
+      statusText.textContent = "Chưa có nội dung để copy.";
+    }
     return;
   }
 
   try {
     await navigator.clipboard.writeText(value);
-    statusText.textContent = "Đã copy vào clipboard.";
+    if (statusText) {
+      statusText.textContent = "Đã copy vào clipboard.";
+    }
   } catch {
     outputText.focus();
     outputText.select();
     document.execCommand("copy");
-    statusText.textContent = "Đã copy vào clipboard.";
+    if (statusText) {
+      statusText.textContent = "Đã copy vào clipboard.";
+    }
   }
 }
 
-inputText.addEventListener("input", updateOutput);
-copyButton.addEventListener("click", copyOutput);
+function setActivePage(pageName) {
+  pages.forEach((page) => {
+    page.classList.toggle("is-active", page.dataset.pagePanel === pageName);
+  });
+
+  navLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.dataset.page === pageName);
+  });
+}
+
+function scrollToPage(pageName) {
+  const page = document.querySelector(`[data-page-panel="${pageName}"]`);
+  if (page) {
+    page.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const pageName = link.dataset.page;
+    setActivePage(pageName);
+    scrollToPage(pageName);
+  });
+});
+
+inputText?.addEventListener("input", updateOutput);
+copyButton?.addEventListener("click", copyOutput);
 
 updateOutput();
+setActivePage("home");
