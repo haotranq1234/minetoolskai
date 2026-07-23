@@ -29,7 +29,6 @@ const smallCapsMap = {
 
 const pages = Array.from(document.querySelectorAll("[data-page-panel]"));
 const navLinks = Array.from(document.querySelectorAll("[data-page]"));
-const utilityButtons = Array.from(document.querySelectorAll("[data-utility-target], [data-coming-soon]"));
 const inputText = document.querySelector("#inputText");
 const outputText = document.querySelector("#outputText");
 const copyButton = document.querySelector("#copyButton");
@@ -97,21 +96,6 @@ navLinks.forEach((link) => {
     const pageName = link.dataset.page;
     setActivePage(pageName);
     scrollToPage(pageName);
-  });
-});
-
-utilityButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (button.dataset.utilityTarget === "small-caps") {
-      setActivePage("tool");
-      scrollToPage("tool");
-      inputText?.focus();
-      return;
-    }
-
-    setActivePage("contact");
-    scrollToPage("contact");
-    setStatus("Các utility khác đang được chuẩn bị.");
   });
 });
 
