@@ -1025,9 +1025,6 @@ let dmState = loadDMState();
 let dmHistory = [cloneDMState(dmState)];
 let dmHistoryIndex = 0;
 let dmClipboard = dmState.clipboard ? cloneDMItem(dmState.clipboard) : null;
-let dmDragAnchor = null;
-let dmDragPreview = [];
-let dmIsPointerDown = false;
 let dmIsRestoringHistory = false;
 let dmSaveTimer = null;
 
@@ -1105,12 +1102,9 @@ function getDMActiveSlots() {
   return unique.length ? unique : [0];
 }
 
-function setDMSelection(indices, { preserveAnchor = false } = {}) {
+function setDMSelection(indices) {
   const unique = Array.from(new Set(indices.filter((slot) => slot >= 0 && slot < dmState.size))).sort((a, b) => a - b);
   dmState.selectedSlots = unique.length ? unique : [0];
-  if (!preserveAnchor) {
-    dmDragAnchor = dmState.selectedSlots[0];
-  }
   syncDMInspectorFromSelection();
   renderDeluxeMenusDesigner({ keepPreview: true });
   scheduleDMSave();
@@ -1659,60 +1653,7 @@ function renderDMGrid() {
         return;
       }
 
-      if (event.shiftKey && dmDragAnchor != null) {
-        setDMSelection(buildDMRange(dmDragAnchor, slot));
-        return;
-      }
-
       setDMSelection([slot]);
-    });
-
-    slotButton.addEventListener("mousedown", (event) => {
-      if (event.button !== 0) {
-        return;
-      }
-      dmIsPointerDown = true;
-      dmDragAnchor = slot;
-      dmDragPreview = [slot];
-    });
-
-    slotButton.addEventListener("mouseenter", (event) => {
-      if (!dmIsPointerDown || event.buttons !== 1 || dmDragAnchor == null) {
-        return;
-      }
-      if (slot === dmDragAnchor) {
-        return;
-      }
-      dmDragPreview = buildDMRange(dmDragAnchor, slot);
-      if (window.getSelection) {
-        window.getSelection().removeAllRanges();
-      }
-      setDMSelection(dmDragPreview, { preserveAnchor: true });
-    });
-
-    slotButton.addEventListener("dragstart", (event) => {
-      event.dataTransfer?.setData("text/plain", String(slot));
-      dmDragAnchor = slot;
-      event.dataTransfer.effectAllowed = "move";
-    });
-
-    slotButton.addEventListener("dragover", (event) => {
-      event.preventDefault();
-    });
-
-    slotButton.addEventListener("drop", (event) => {
-      event.preventDefault();
-      const fromSlot = Number(event.dataTransfer?.getData("text/plain"));
-      if (!Number.isInteger(fromSlot) || fromSlot === slot) {
-        return;
-      }
-      const moved = cloneDMItem(dmState.slots[fromSlot] || createEmptyDMItem(fromSlot));
-      moved.slot = slot;
-      dmState.slots[slot] = { ...moved, slot };
-      dmState.slots[fromSlot] = createEmptyDMItem(fromSlot);
-      setDMSelection([slot]);
-      pushDMHistory();
-      renderDeluxeMenusDesigner();
     });
 
     slotButton.addEventListener("contextmenu", (event) => {
@@ -1725,29 +1666,6 @@ function renderDMGrid() {
 
     dmGrid.appendChild(slotButton);
   }
-}
-
-function buildDMRange(start, end) {
-  const startRow = Math.floor(start / DM_SLOT_SIZE);
-  const startCol = start % DM_SLOT_SIZE;
-  const endRow = Math.floor(end / DM_SLOT_SIZE);
-  const endCol = end % DM_SLOT_SIZE;
-  const minRow = Math.min(startRow, endRow);
-  const maxRow = Math.max(startRow, endRow);
-  const minCol = Math.min(startCol, endCol);
-  const maxCol = Math.max(startCol, endCol);
-  const slots = [];
-
-  for (let row = minRow; row <= maxRow; row += 1) {
-    for (let col = minCol; col <= maxCol; col += 1) {
-      const slot = row * DM_SLOT_SIZE + col;
-      if (slot < dmState.size) {
-        slots.push(slot);
-      }
-    }
-  }
-
-  return slots;
 }
 
 function setDMStatus(message) {
@@ -1959,15 +1877,6 @@ dmExportDownloadButton?.addEventListener("click", () => {
 });
 dmImportInput?.addEventListener("change", () => handleDMImportFile(dmImportInput.files?.[0]));
 dmSearchInput?.addEventListener("input", updateDMSearchField);
-
-document.addEventListener("mouseup", () => {
-  dmIsPointerDown = false;
-  dmDragPreview = [];
-});
-document.addEventListener("mouseleave", () => {
-  dmIsPointerDown = false;
-  dmDragPreview = [];
-});
 
 bindDMInspector();
 renderDMMaterialLibrary();
