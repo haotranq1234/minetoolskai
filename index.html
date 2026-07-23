@@ -6,7 +6,7 @@
     <title>minetoolskai | Minecraft Tool Hub</title>
     <meta
       name="description"
-      content="minetoolskai là nền tảng công cụ Minecraft phong cách tương lai, nay có tool chuyển chữ thường sang small caps Unicode."
+      content="minetoolskai là nền tảng công cụ Minecraft phong cách tương lai với tool small caps và leather armor color converter chạy hoàn toàn trên client."
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,11 +31,11 @@
 
       <nav class="topnav" aria-label="Điều hướng chính">
         <button class="nav-link is-active" type="button" data-page="home">Tổng quan</button>
-        <button class="nav-link" type="button" data-page="tool">Tool</button>
+        <button class="nav-link" type="button" data-page="tools">Tool</button>
         <button class="nav-link" type="button" data-page="contact">Liên hệ</button>
       </nav>
 
-      <a class="topbar-cta" href="#tool" data-page="tool">Mở tool</a>
+      <a class="topbar-cta" href="#tools" data-page="tools">Mở tool</a>
     </header>
 
     <main>
@@ -45,12 +45,12 @@
             <p class="eyebrow">Minecraft utilities / futuristic UI</p>
             <h1>minetoolskai đang được xây dựng thành trung tâm tool Minecraft.</h1>
             <p class="lead">
-              Web cũ vẫn được giữ lại, chỉ thêm đúng một tool vào bên trong để đúng kiểu
-              một nền tảng đang phát triển. Giao diện tối, gọn, dễ dùng trên điện thoại.
+              Web cũ vẫn được giữ lại. Bên trong hiện có 2 tool chạy hoàn toàn trên client:
+              small caps Unicode và Minecraft Leather Armor Color Converter.
             </p>
 
             <div class="hero-actions">
-              <a class="button button-primary" href="#tool" data-page="tool">Vào tool</a>
+              <a class="button button-primary" href="#tools" data-page="tools">Vào tool</a>
               <a class="button button-secondary" href="#contact" data-page="contact">Xem liên hệ</a>
             </div>
           </div>
@@ -58,9 +58,9 @@
           <aside class="hero-panel">
             <div class="panel-card">
               <span class="panel-label">Status</span>
-              <h2>Tool small caps</h2>
-              <p>Chuyển chữ thường sang small caps Unicode, giữ dấu tiếng Việt và copy nhanh.</p>
-              <a class="button button-primary panel-action" href="#tool" data-page="tool">Mở tool</a>
+              <h2>2 tools online</h2>
+              <p>Small caps Unicode và Leather Armor Color Converter.</p>
+              <a class="button button-primary panel-action" href="#tools" data-page="tools">Mở tool</a>
             </div>
 
             <div class="panel-grid">
@@ -69,8 +69,8 @@
                 <strong>Clean landing</strong>
               </article>
               <article>
-                <span>Tool</span>
-                <strong>Unicode small caps</strong>
+                <span>Tools</span>
+                <strong>2 client-side tools</strong>
               </article>
               <article>
                 <span>Theme</span>
@@ -85,35 +85,152 @@
         </section>
       </section>
 
-      <section class="page shell" id="tool" data-page-panel="tool">
+      <section class="page shell" id="tools" data-page-panel="tools">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">Tool</p>
+            <h2>Chọn công cụ</h2>
+          </div>
+          <p class="page-note">
+            Bấm vào một công cụ để mở sang trang riêng của nó.
+          </p>
+        </div>
+
+        <section class="tool-grid" aria-label="Danh sách công cụ">
+          <article class="tool-tile tool-tile-feature">
+            <div class="tool-topline">
+              <span class="tool-icon">M</span>
+              <span class="tool-tag">Active</span>
+            </div>
+            <h3>Định dạng chữ small caps</h3>
+            <p>Chuyển chữ thường sang small caps Unicode, giữ nguyên dấu tiếng Việt.</p>
+            <button class="tool-link" type="button" data-page="small-caps">Mở tool</button>
+          </article>
+
+          <article class="tool-tile">
+            <div class="tool-topline">
+              <span class="tool-icon">◌</span>
+              <span class="tool-tag">Color</span>
+            </div>
+            <h3>Minecraft Leather Armor Color Converter</h3>
+            <p>Chuyển HEX sang RGB, Decimal, MMOItems và ItemsAdder config.</p>
+            <button class="tool-link" type="button" data-page="leather-color">Mở tool</button>
+          </article>
+        </section>
+      </section>
+
+      <section class="page shell" id="small-caps" data-page-panel="small-caps">
         <div class="page-header">
           <div>
             <p class="eyebrow">Tool</p>
             <h2>Định dạng chữ small caps</h2>
           </div>
           <p class="page-note">
-            Nhập văn bản bên dưới để chuyển ngay sang small caps Unicode. Đây là tool duy nhất hiện tại.
+            Nhập văn bản và xem kết quả ngay khi gõ. Có nút copy riêng cho kết quả.
           </p>
         </div>
 
-        <section class="tool-feature shell">
-          <div class="converter-card tool-card">
-            <div class="sample sample-inline">
-              <span>Ví dụ nhanh</span>
-              <p>bé, vợ, nàng thơ, cute, sát thủ.</p>
-            </div>
+        <section class="tool-card converter-card">
+          <div class="sample sample-inline">
+            <span>Ví dụ nhanh</span>
+            <p>bé, vợ, nàng thơ, cute, sát thủ.</p>
+          </div>
 
+          <div class="field-head">
+            <label for="inputText">Văn bản gốc</label>
+            <button id="copySmallCapsButton" class="copy-button" type="button">Copy</button>
+          </div>
+
+          <textarea id="inputText" rows="6" placeholder="Nhập văn bản ở đây...">bé, vợ, nàng thơ, cute, sát thủ.</textarea>
+
+          <label for="outputText" class="output-label">Kết quả small caps</label>
+          <textarea id="outputText" rows="6" readonly aria-live="polite"></textarea>
+
+          <p id="smallCapsStatus" class="status" role="status" aria-live="polite"></p>
+        </section>
+      </section>
+
+      <section class="page shell" id="leather-color" data-page-panel="leather-color">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">Tool</p>
+            <h2>Minecraft Leather Armor Color Converter</h2>
+          </div>
+          <p class="page-note">
+            Chuyển HEX sang RGB, Decimal, MMOItems và ItemsAdder. Tất cả xử lý ngay trên client.
+          </p>
+        </div>
+
+        <section class="converter-layout">
+          <article class="converter-card">
             <div class="field-head">
-              <label for="inputText">Văn bản gốc</label>
-              <button id="copyButton" class="copy-button" type="button">Copy</button>
+              <label for="hexInput">Mã màu HEX</label>
+              <span id="hexStatus" class="status">Nhập hợp lệ như #FFAA00 hoặc FFAA00</span>
             </div>
 
-            <textarea id="inputText" rows="6" placeholder="Nhập văn bản ở đây...">bé, vợ, nàng thơ, cute, sát thủ.</textarea>
+            <input id="hexInput" class="hex-input" type="text" value="#FFAA00" placeholder="#FFAA00">
 
-            <label for="outputText" class="output-label">Kết quả small caps</label>
-            <textarea id="outputText" rows="6" readonly aria-live="polite"></textarea>
+            <div class="picker-row">
+              <label class="picker-label" for="colorPicker">
+                Color Picker
+                <input id="colorPicker" type="color" value="#ffaa00">
+              </label>
+            </div>
 
-            <p id="status" class="status" role="status" aria-live="polite"></p>
+            <div class="preview-wrap">
+              <div class="preview-swatch" id="previewSwatch"></div>
+              <div class="preview-info">
+                <span>Preview màu</span>
+                <strong id="previewHex">#FFAA00</strong>
+              </div>
+            </div>
+          </article>
+
+          <div class="results-grid">
+            <article class="result-card">
+              <div class="result-head">
+                <h3>HEX</h3>
+                <button class="copy-button copy-small" type="button" data-copy-target="hexOutput">Copy</button>
+              </div>
+              <pre class="code-block" id="hexOutput">#FFAA00</pre>
+            </article>
+
+            <article class="result-card">
+              <div class="result-head">
+                <h3>RGB</h3>
+                <button class="copy-button copy-small" type="button" data-copy-target="rgbOutput">Copy</button>
+              </div>
+              <pre class="code-block" id="rgbOutput">Red: 255
+Green: 170
+Blue: 0</pre>
+            </article>
+
+            <article class="result-card">
+              <div class="result-head">
+                <h3>Decimal</h3>
+                <button class="copy-button copy-small" type="button" data-copy-target="decimalOutput">Copy</button>
+              </div>
+              <pre class="code-block" id="decimalOutput">16755200</pre>
+            </article>
+
+            <article class="result-card">
+              <div class="result-head">
+                <h3>MMOItems</h3>
+                <button class="copy-button copy-small" type="button" data-copy-target="mmoItemsOutput">Copy</button>
+              </div>
+              <pre class="code-block" id="mmoItemsOutput">color:
+  red: 255
+  green: 170
+  blue: 0</pre>
+            </article>
+
+            <article class="result-card">
+              <div class="result-head">
+                <h3>ItemsAdder</h3>
+                <button class="copy-button copy-small" type="button" data-copy-target="itemsAdderOutput">Copy</button>
+              </div>
+              <pre class="code-block" id="itemsAdderOutput">color: "#FFAA00"</pre>
+            </article>
           </div>
         </section>
       </section>
@@ -122,20 +239,17 @@
         <div class="page-header">
           <div>
             <p class="eyebrow">Liên hệ</p>
-            <h2>Thông tin liên hệ và hướng dẫn tiếp theo</h2>
+            <h2>Thông tin liên hệ</h2>
           </div>
           <p class="page-note">
-            Sau tool này, mình có thể làm tiếp tool thứ hai mà vẫn giữ đúng nền web hiện tại.
+            Nếu muốn thêm tool mới, bạn chỉ cần nói tên tool và mình sẽ gắn tiếp vào cùng web này.
           </p>
         </div>
 
         <div class="contact-grid">
           <article class="contact-card">
             <h3>Liên hệ nhanh</h3>
-            <p>
-              Nếu bạn muốn thêm yêu cầu riêng cho tool tiếp theo, đây là chỗ để gắn email, Discord,
-              hoặc form liên hệ sau này.
-            </p>
+            <p>Chỗ này để gắn email, Discord hoặc form liên hệ sau này.</p>
             <ul>
               <li>Email: your-email@example.com</li>
               <li>Discord: @minetoolskai</li>
@@ -145,9 +259,7 @@
 
           <article class="contact-card contact-highlight">
             <h3>Trạng thái hiện tại</h3>
-            <p>
-              Web đã có nền cũ, và tool đã được gắn trực tiếp vào cùng giao diện.
-            </p>
+            <p>Hai tool đầu tiên đã chạy hoàn toàn trên client.</p>
             <p class="contact-badge">Ready for next tool</p>
           </article>
         </div>
