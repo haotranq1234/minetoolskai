@@ -41,6 +41,15 @@ const previewSwatch = document.querySelector("#previewSwatch");
 const previewHex = document.querySelector("#previewHex");
 const hexStatus = document.querySelector("#hexStatus");
 
+const yamlInput = document.querySelector("#yamlInput");
+const yamlFileInput = document.querySelector("#yamlFileInput");
+const yamlSourcePreview = document.querySelector("#yamlSourcePreview");
+const yamlOutputPreview = document.querySelector("#yamlOutputPreview");
+const yamlStatus = document.querySelector("#yamlStatus");
+const translateButton = document.querySelector("#translateButton");
+const copyYamlButton = document.querySelector("#copyYamlButton");
+const downloadYamlButton = document.querySelector("#downloadYamlButton");
+
 const outputTargets = {
   hexOutput: document.querySelector("#hexOutput"),
   rgbOutput: document.querySelector("#rgbOutput"),
@@ -48,6 +57,166 @@ const outputTargets = {
   mmoItemsOutput: document.querySelector("#mmoItemsOutput"),
   itemsAdderOutput: document.querySelector("#itemsAdderOutput")
 };
+
+const protectedIdentifiers = new Set([
+  "MiniMessage",
+  "MMOItems",
+  "ItemsAdder",
+  "PlaceholderAPI",
+  "MythicMobs",
+  "Placeholder",
+  "Placeholderapi"
+]);
+
+const glossaryPhrases = [
+  ["attack speed", "tốc độ đánh"],
+  ["attack damage", "sát thương tấn công"],
+  ["critical strike", "đòn chí mạng"],
+  ["critical chance", "tỉ lệ chí mạng"],
+  ["increase damage", "tăng sát thương"],
+  ["decrease damage", "giảm sát thương"],
+  ["deal damage", "gây sát thương"],
+  ["take damage", "nhận sát thương"],
+  ["drop chance", "tỉ lệ rơi"],
+  ["max health", "máu tối đa"],
+  ["health points", "điểm máu"],
+  ["movement speed", "tốc độ di chuyển"],
+  ["damage resistance", "kháng sát thương"],
+  ["right click", "nhấp chuột phải"],
+  ["left click", "nhấp chuột trái"],
+  ["while holding", "khi cầm"],
+  ["when equipped", "khi trang bị"],
+  ["on hit", "khi đánh trúng"],
+  ["on kill", "khi tiêu diệt"],
+  ["set bonus", "hiệu ứng bộ"],
+  ["item lore", "mô tả vật phẩm"],
+  ["legendary sword", "kiếm huyền thoại"],
+  ["legendary armor", "giáp huyền thoại"],
+  ["legendary", "huyền thoại"],
+  ["epic", "sử thi"],
+  ["rare", "hiếm"],
+  ["uncommon", "khá hiếm"],
+  ["common", "thường"],
+  ["increase", "tăng"],
+  ["decrease", "giảm"],
+  ["damage", "sát thương"],
+  ["health", "máu"],
+  ["speed", "tốc độ"],
+  ["strength", "sức mạnh"],
+  ["defense", "phòng thủ"],
+  ["attack", "tấn công"],
+  ["armor", "giáp"],
+  ["helmet", "mũ"],
+  ["chestplate", "áo giáp"],
+  ["leggings", "quần giáp"],
+  ["boots", "ủng"],
+  ["sword", "kiếm"],
+  ["bow", "cung"],
+  ["axe", "rìu"],
+  ["shield", "khiên"],
+  ["poison", "độc"],
+  ["fire", "lửa"],
+  ["ice", "băng"],
+  ["lightning", "sét"],
+  ["cooldown", "thời gian hồi"],
+  ["duration", "thời lượng"],
+  ["reward", "phần thưởng"],
+  ["bonus", "thưởng"],
+  ["chance", "tỉ lệ"],
+  ["message", "thông báo"],
+  ["welcome", "chào mừng"],
+  ["success", "thành công"],
+  ["failure", "thất bại"],
+  ["error", "lỗi"],
+  ["enabled", "bật"],
+  ["disabled", "tắt"],
+  ["description", "mô tả"],
+  ["title", "tiêu đề"],
+  ["level", "cấp"],
+  ["experience", "kinh nghiệm"],
+  ["requirement", "yêu cầu"],
+  ["requirements", "yêu cầu"],
+  ["unlock", "mở khóa"],
+  ["unlocks", "mở khóa"],
+  ["chance to", "có tỉ lệ"],
+  ["increase by", "tăng thêm"],
+  ["decrease by", "giảm đi"]
+];
+
+const glossaryWords = new Map([
+  ["legendary", "huyền thoại"],
+  ["epic", "sử thi"],
+  ["rare", "hiếm"],
+  ["common", "thường"],
+  ["uncommon", "khá hiếm"],
+  ["increase", "tăng"],
+  ["decrease", "giảm"],
+  ["damage", "sát thương"],
+  ["health", "máu"],
+  ["speed", "tốc độ"],
+  ["strength", "sức mạnh"],
+  ["defense", "phòng thủ"],
+  ["attack", "tấn công"],
+  ["armor", "giáp"],
+  ["helmet", "mũ"],
+  ["chestplate", "áo giáp"],
+  ["leggings", "quần giáp"],
+  ["boots", "ủng"],
+  ["sword", "kiếm"],
+  ["bow", "cung"],
+  ["axe", "rìu"],
+  ["shield", "khiên"],
+  ["poison", "độc"],
+  ["fire", "lửa"],
+  ["ice", "băng"],
+  ["lightning", "sét"],
+  ["cooldown", "thời gian hồi"],
+  ["duration", "thời lượng"],
+  ["reward", "phần thưởng"],
+  ["bonus", "thưởng"],
+  ["chance", "tỉ lệ"],
+  ["message", "thông báo"],
+  ["welcome", "chào mừng"],
+  ["success", "thành công"],
+  ["failure", "thất bại"],
+  ["error", "lỗi"],
+  ["enabled", "bật"],
+  ["disabled", "tắt"],
+  ["description", "mô tả"],
+  ["title", "tiêu đề"],
+  ["level", "cấp"],
+  ["experience", "kinh nghiệm"],
+  ["requirement", "yêu cầu"],
+  ["requirements", "yêu cầu"],
+  ["unlock", "mở khóa"],
+  ["unlocks", "mở khóa"],
+  ["amount", "số lượng"],
+  ["value", "giá trị"],
+  ["item", "vật phẩm"],
+  ["items", "vật phẩm"],
+  ["player", "người chơi"],
+  ["players", "người chơi"],
+  ["weapon", "vũ khí"],
+  ["armor", "giáp"],
+  ["set", "bộ"],
+  ["bonus", "thưởng"],
+  ["skill", "kỹ năng"],
+  ["skills", "kỹ năng"],
+  ["ability", "kỹ năng"],
+  ["abilities", "kỹ năng"],
+  ["chance", "tỉ lệ"],
+  ["right", "phải"],
+  ["left", "trái"],
+  ["hit", "đánh trúng"],
+  ["kill", "tiêu diệt"],
+  ["equip", "trang bị"],
+  ["equiped", "trang bị"],
+  ["holding", "cầm"],
+  ["healths", "máu"],
+  ["speed", "tốc độ"]
+]);
+
+const yamlWordPattern = /([A-Za-z][A-Za-z'-]*)/g;
 
 function isPageName(value) {
   return pagePanels.some((panel) => panel.dataset.pagePanel === value);
@@ -223,6 +392,404 @@ function bindCopyButtons() {
   });
 }
 
+function escapeHtml(text) {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function highlightYaml(codeElement, text) {
+  if (!codeElement) {
+    return;
+  }
+
+  codeElement.textContent = text || "";
+  if (window.hljs?.highlightElement) {
+    window.hljs.highlightElement(codeElement);
+  }
+}
+
+function renderSourcePreview() {
+  if (!yamlInput || !yamlSourcePreview) {
+    return;
+  }
+
+  highlightYaml(yamlSourcePreview, yamlInput.value);
+}
+
+function splitInlineComment(line) {
+  let inSingle = false;
+  let inDouble = false;
+  let escapeNext = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+
+    if (escapeNext) {
+      escapeNext = false;
+      continue;
+    }
+
+    if (inDouble && char === "\\") {
+      escapeNext = true;
+      continue;
+    }
+
+    if (char === "'" && !inDouble) {
+      inSingle = !inSingle;
+      continue;
+    }
+
+    if (char === '"' && !inSingle) {
+      inDouble = !inDouble;
+      continue;
+    }
+
+    if (char === "#" && !inSingle && !inDouble) {
+      const before = index === 0 ? " " : line[index - 1];
+      if (/\s/.test(before)) {
+        return {
+          code: line.slice(0, index).replace(/\s+$/, ""),
+          comment: line.slice(index)
+        };
+      }
+    }
+  }
+
+  return { code: line, comment: "" };
+}
+
+function findTopLevelColon(line) {
+  let inSingle = false;
+  let inDouble = false;
+  let escapeNext = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+
+    if (escapeNext) {
+      escapeNext = false;
+      continue;
+    }
+
+    if (inDouble && char === "\\") {
+      escapeNext = true;
+      continue;
+    }
+
+    if (char === "'" && !inDouble) {
+      inSingle = !inSingle;
+      continue;
+    }
+
+    if (char === '"' && !inSingle) {
+      inDouble = !inDouble;
+      continue;
+    }
+
+    if (char === ":" && !inSingle && !inDouble) {
+      return index;
+    }
+  }
+
+  return -1;
+}
+
+function escapeForRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function preserveCaseReplacement(sourceWord, replacement) {
+  if (!replacement) {
+    return replacement;
+  }
+
+  if (sourceWord === sourceWord.toUpperCase()) {
+    return replacement.toUpperCase();
+  }
+
+  if (sourceWord[0] === sourceWord[0].toUpperCase()) {
+    return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+  }
+
+  return replacement;
+}
+
+function preserveCaseFromPhrase(sourcePhrase, replacement) {
+  if (!replacement) {
+    return replacement;
+  }
+
+  const firstChar = sourcePhrase.trim().charAt(0);
+  if (firstChar && firstChar === firstChar.toUpperCase()) {
+    return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+  }
+
+  return replacement;
+}
+
+function protectTokens(text) {
+  const tokens = [];
+  const pattern = /&#[0-9A-Fa-f]{6}|&[0-9a-fk-orA-FK-OR]|<[^>\n]+>|%[^%\s]+%|\$\{[^}]+\}|\{@[^}]+\}/g;
+
+  const protectedText = text.replace(pattern, (match) => {
+    const tokenId = `__${tokens.length}__`;
+    tokens.push(match);
+    return tokenId;
+  });
+
+  return { protectedText, tokens };
+}
+
+function restoreTokens(text, tokens) {
+  return text.replace(/__(\d+)__/g, (_, index) => tokens[Number(index)] ?? "");
+}
+
+function translateWord(word) {
+  const mapped = glossaryWords.get(word.toLowerCase());
+  return mapped ? preserveCaseReplacement(word, mapped) : word;
+}
+
+function translateTextSegment(text) {
+  if (!text) {
+    return text;
+  }
+
+  const preserved = protectTokens(text);
+  let translated = preserved.protectedText;
+
+  glossaryPhrases
+    .slice()
+    .sort((a, b) => b[0].length - a[0].length)
+    .forEach(([source, target]) => {
+      const regex = new RegExp(`(^|[^A-Za-z0-9_])${escapeForRegExp(source)}(?=$|[^A-Za-z0-9_])`, "gi");
+      translated = translated.replace(regex, (match, prefix) => {
+        const matchedPhrase = match.slice(prefix.length);
+        return `${prefix}${preserveCaseFromPhrase(matchedPhrase, target)}`;
+      });
+    });
+
+  translated = translated.replace(yamlWordPattern, (word) => translateWord(word));
+  return restoreTokens(translated, preserved.tokens);
+}
+
+function isSimpleConstant(value) {
+  if (/^\d+(\.\d+)?$/.test(value)) {
+    return true;
+  }
+
+  if (/^(true|false|null|~)$/i.test(value)) {
+    return true;
+  }
+
+  if (/^[A-Z0-9_:-]+$/.test(value) && /[A-Z]/.test(value)) {
+    return true;
+  }
+
+  return protectedIdentifiers.has(value);
+}
+
+function quoteValue(value, quoteType) {
+  if (quoteType === "'") {
+    return `'${value.replaceAll("'", "''")}'`;
+  }
+
+  const escaped = value.replaceAll("\\", "\\\\").replaceAll('"', '\\"');
+  return `"${escaped}"`;
+}
+
+function translateScalarValue(value) {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return value;
+  }
+
+  if (trimmed === "|" || trimmed === ">" || /^[|>][-+0-9]*$/.test(trimmed)) {
+    return value;
+  }
+
+  const singleQuoted = trimmed.startsWith("'") && trimmed.endsWith("'");
+  const doubleQuoted = trimmed.startsWith('"') && trimmed.endsWith('"');
+
+  if (singleQuoted || doubleQuoted) {
+    const quoteType = singleQuoted ? "'" : '"';
+    const inner = trimmed.slice(1, -1);
+    const translatedInner = translateTextSegment(inner);
+    return quoteValue(translatedInner, quoteType);
+  }
+
+  if (isSimpleConstant(trimmed)) {
+    return trimmed;
+  }
+
+  const translated = translateTextSegment(trimmed);
+  if (/[:#\n\r]/.test(translated) || /^\s/.test(translated) || /\s$/.test(translated)) {
+    return quoteValue(translated, '"');
+  }
+
+  return translated;
+}
+
+function translateYamlCodeSegment(segment) {
+  const listMatch = segment.match(/^(\s*-\s+)(.*)$/);
+  if (listMatch) {
+    return `${listMatch[1]}${translateYamlCodeSegment(listMatch[2])}`;
+  }
+
+  const colonIndex = findTopLevelColon(segment);
+  if (colonIndex === -1) {
+    return translateScalarValue(segment);
+  }
+
+  const before = segment.slice(0, colonIndex);
+  const after = segment.slice(colonIndex + 1);
+  const trimmedAfter = after.trim();
+
+  if (!trimmedAfter) {
+    return segment;
+  }
+
+  if (trimmedAfter === "|" || trimmedAfter === ">" || /^[|>][-+0-9]*$/.test(trimmedAfter)) {
+    return segment;
+  }
+
+  const translatedAfter = translateScalarValue(trimmedAfter);
+  const spacing = after.slice(0, after.length - after.trimStart().length);
+  return `${before}:${spacing}${translatedAfter}`;
+}
+
+function translateYamlLine(line, blockState) {
+  if (blockState.active) {
+    const indent = line.match(/^\s*/)?.[0].length ?? 0;
+
+    if (!line.trim()) {
+      return line;
+    }
+
+    if (indent > blockState.indent) {
+      return `${line.slice(0, indent)}${translateTextSegment(line.slice(indent))}`;
+    }
+
+    blockState.active = false;
+  }
+
+  if (!line.trim() || line.trimStart().startsWith("#")) {
+    return line;
+  }
+
+  const { code, comment } = splitInlineComment(line);
+  const translatedCode = translateYamlCodeSegment(code);
+  const trimmedCode = code.trim();
+
+  if (trimmedCode) {
+    const colonIndex = findTopLevelColon(code);
+    if (colonIndex !== -1) {
+      const after = code.slice(colonIndex + 1).trim();
+      if (after === "|" || after === ">" || /^[|>][-+0-9]*$/.test(after)) {
+        blockState.active = true;
+        blockState.indent = code.match(/^\s*/)?.[0].length ?? 0;
+      }
+    }
+  }
+
+  return `${translatedCode}${comment}`;
+}
+
+function validateYamlSyntax(yamlText) {
+  if (!window.jsyaml?.load) {
+    return { valid: true };
+  }
+
+  try {
+    window.jsyaml.load(yamlText);
+    return { valid: true };
+  } catch (error) {
+    return { valid: false, error };
+  }
+}
+
+function translateYamlDocument(sourceText) {
+  const validation = validateYamlSyntax(sourceText);
+  if (!validation.valid) {
+    const error = validation.error;
+    const lineInfo = error?.mark?.line != null ? ` Dòng ${error.mark.line + 1}.` : "";
+    return {
+      ok: false,
+      output: "",
+      message: `YAML không hợp lệ.${lineInfo} ${error?.message || ""}`.trim()
+    };
+  }
+
+  const lines = sourceText.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
+  const blockState = { active: false, indent: 0 };
+  const translated = lines.map((line) => translateYamlLine(line, blockState)).join("\n");
+
+  return {
+    ok: true,
+    output: translated,
+    message: "Đã dịch xong."
+  };
+}
+
+function updateYamlSourcePreview() {
+  if (!yamlInput || !yamlSourcePreview) {
+    return;
+  }
+
+  highlightYaml(yamlSourcePreview, yamlInput.value);
+}
+
+function setYamlStatus(message, isError = false) {
+  if (!yamlStatus) {
+    return;
+  }
+
+  yamlStatus.textContent = message;
+  yamlStatus.classList.toggle("is-error", isError);
+}
+
+let latestYamlOutput = "";
+
+function renderYamlOutput(text) {
+  latestYamlOutput = text;
+  if (yamlOutputPreview) {
+    highlightYaml(yamlOutputPreview, text);
+  }
+}
+
+function runYamlTranslation() {
+  if (!yamlInput) {
+    return;
+  }
+
+  const result = translateYamlDocument(yamlInput.value);
+  if (!result.ok) {
+    renderYamlOutput("");
+    setYamlStatus(result.message, true);
+    return;
+  }
+
+  renderYamlOutput(result.output);
+  setYamlStatus(result.message, false);
+}
+
+function downloadYaml() {
+  if (!latestYamlOutput) {
+    setYamlStatus("Chưa có nội dung để download.", true);
+    return;
+  }
+
+  const blob = new Blob([latestYamlOutput], { type: "text/yaml;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "translated.yaml";
+  anchor.click();
+  URL.revokeObjectURL(url);
+  setYamlStatus("Đã tải file.");
+}
+
 pageLinks.forEach((link) => {
   link.addEventListener("click", () => {
     const pageName = link.dataset.page;
@@ -249,8 +816,34 @@ colorPicker?.addEventListener("input", () => {
 
 bindCopyButtons();
 
+yamlInput?.addEventListener("input", updateYamlSourcePreview);
+yamlFileInput?.addEventListener("change", () => {
+  const file = yamlFileInput.files?.[0];
+  if (!file) {
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    if (yamlInput) {
+      yamlInput.value = String(reader.result || "");
+      updateYamlSourcePreview();
+      setYamlStatus(`Đã tải ${file.name}. Bấm Translate để dịch.`);
+    }
+  };
+  reader.readAsText(file, "utf-8");
+});
+
+translateButton?.addEventListener("click", runYamlTranslation);
+copyYamlButton?.addEventListener("click", async () => {
+  await copyText(latestYamlOutput || "", yamlStatus);
+});
+downloadYamlButton?.addEventListener("click", downloadYaml);
+
 updateSmallCaps();
 updateLeatherConverter();
+updateYamlSourcePreview();
+runYamlTranslation();
 
 const initialPage = location.hash.replace("#", "");
 openPage(isPageName(initialPage) ? initialPage : "home", { scroll: false, updateHash: false });

@@ -13,6 +13,7 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
@@ -46,7 +47,7 @@
             <h1>minetoolskai đang được xây dựng thành trung tâm tool Minecraft.</h1>
             <p class="lead">
               Web cũ vẫn được giữ lại. Bên trong hiện có 2 tool chạy hoàn toàn trên client:
-              small caps Unicode và Minecraft Leather Armor Color Converter.
+              small caps Unicode, Minecraft Leather Armor Color Converter và YAML Translator.
             </p>
 
             <div class="hero-actions">
@@ -58,8 +59,8 @@
           <aside class="hero-panel">
             <div class="panel-card">
               <span class="panel-label">Status</span>
-              <h2>2 tools online</h2>
-              <p>Small caps Unicode và Leather Armor Color Converter.</p>
+              <h2>3 tools online</h2>
+              <p>Small caps Unicode, Leather Armor Color Converter và YAML Translator.</p>
               <a class="button button-primary panel-action" href="#tools" data-page="tools">Mở tool</a>
             </div>
 
@@ -70,7 +71,7 @@
               </article>
               <article>
                 <span>Tools</span>
-                <strong>2 client-side tools</strong>
+                <strong>3 client-side tools</strong>
               </article>
               <article>
                 <span>Theme</span>
@@ -115,6 +116,16 @@
             <h3>Minecraft Leather Armor Color Converter</h3>
             <p>Chuyển HEX sang RGB, Decimal, MMOItems và ItemsAdder config.</p>
             <button class="tool-link" type="button" data-page="leather-color">Mở tool</button>
+          </article>
+
+          <article class="tool-tile">
+            <div class="tool-topline">
+              <span class="tool-icon">Y</span>
+              <span class="tool-tag">Config</span>
+            </div>
+            <h3>YAML Translator</h3>
+            <p>Dịch player-facing text trong file YAML sang tiếng Việt, giữ nguyên cấu trúc.</p>
+            <button class="tool-link" type="button" data-page="yaml-translator">Mở tool</button>
           </article>
         </section>
       </section>
@@ -235,6 +246,79 @@ Blue: 0</pre>
         </section>
       </section>
 
+      <section class="page shell" id="yaml-translator" data-page-panel="yaml-translator">
+        <div class="page-header">
+          <div>
+            <p class="eyebrow">Tool</p>
+            <h2>YAML Translator</h2>
+          </div>
+          <p class="page-note">
+            Upload file hoặc dán YAML vào bên trái, rồi bấm Translate để tạo bản tiếng Việt ở bên phải.
+          </p>
+        </div>
+
+        <section class="translator-shell">
+          <article class="translator-card">
+            <div class="translator-head">
+              <div>
+                <h3>YAML gốc</h3>
+                <p>Giữ nguyên key, indent, comment, placeholder và color code.</p>
+              </div>
+              <label class="upload-button">
+                Upload file
+                <input id="yamlFileInput" type="file" accept=".yml,.yaml,text/yaml,text/plain">
+              </label>
+            </div>
+
+            <textarea
+              id="yamlInput"
+              class="yaml-textarea"
+              spellcheck="false"
+              placeholder="Dán YAML vào đây...">name: "&6Legendary Sword"
+lore:
+  - "&7Increase Damage"
+material: DIAMOND_SWORD
+damage: 25
+attack-speed: 1.6</textarea>
+
+            <div class="code-shell">
+              <div class="code-shell-head">
+                <span>Preview</span>
+              </div>
+              <pre class="code-block"><code id="yamlSourcePreview" class="language-yaml"></code></pre>
+            </div>
+            <div class="translator-note">
+              <strong>Giữ nguyên:</strong>
+              <span>key YAML, placeholder, MiniMessage, color code, biến PlaceholderAPI/MMOItems/ItemsAdder</span>
+            </div>
+            <div class="translator-footer">
+              <button id="translateButton" class="button button-primary" type="button">Translate</button>
+              <p id="yamlStatus" class="status">Chưa dịch file nào.</p>
+            </div>
+          </article>
+
+          <article class="translator-card">
+            <div class="translator-head">
+              <div>
+                <h3>YAML đã dịch</h3>
+                <p>Bản dịch giữ nguyên cấu trúc file và comment.</p>
+              </div>
+              <div class="translator-actions-row">
+                <button id="copyYamlButton" class="copy-button" type="button">Copy</button>
+                <button id="downloadYamlButton" class="copy-button" type="button">Download</button>
+              </div>
+            </div>
+
+            <div class="code-shell code-shell-output">
+              <div class="code-shell-head">
+                <span>Syntax highlight</span>
+              </div>
+              <pre class="code-block"><code id="yamlOutputPreview" class="language-yaml"></code></pre>
+            </div>
+          </article>
+        </section>
+      </section>
+
       <section class="page shell" id="contact" data-page-panel="contact">
         <div class="page-header">
           <div>
@@ -266,6 +350,9 @@ Blue: 0</pre>
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
