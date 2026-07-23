@@ -29,6 +29,7 @@ const smallCapsMap = {
 
 const pages = Array.from(document.querySelectorAll("[data-page-panel]"));
 const navLinks = Array.from(document.querySelectorAll("[data-page]"));
+const utilityButtons = Array.from(document.querySelectorAll("[data-utility-target], [data-coming-soon]"));
 const inputText = document.querySelector("#inputText");
 const outputText = document.querySelector("#outputText");
 const copyButton = document.querySelector("#copyButton");
@@ -49,28 +50,28 @@ function updateOutput() {
   }
 }
 
+function setStatus(message) {
+  if (statusText) {
+    statusText.textContent = message;
+  }
+}
+
 async function copyOutput() {
   const value = outputText?.value || "";
 
   if (!value) {
-    if (statusText) {
-      statusText.textContent = "Chưa có nội dung để copy.";
-    }
+    setStatus("Chưa có nội dung để copy.");
     return;
   }
 
   try {
     await navigator.clipboard.writeText(value);
-    if (statusText) {
-      statusText.textContent = "Đã copy vào clipboard.";
-    }
+    setStatus("Đã copy vào clipboard.");
   } catch {
     outputText.focus();
     outputText.select();
     document.execCommand("copy");
-    if (statusText) {
-      statusText.textContent = "Đã copy vào clipboard.";
-    }
+    setStatus("Đã copy vào clipboard.");
   }
 }
 
@@ -96,6 +97,21 @@ navLinks.forEach((link) => {
     const pageName = link.dataset.page;
     setActivePage(pageName);
     scrollToPage(pageName);
+  });
+});
+
+utilityButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (button.dataset.utilityTarget === "small-caps") {
+      setActivePage("tool");
+      scrollToPage("tool");
+      inputText?.focus();
+      return;
+    }
+
+    setActivePage("contact");
+    scrollToPage("contact");
+    setStatus("Các utility khác đang được chuẩn bị.");
   });
 });
 
